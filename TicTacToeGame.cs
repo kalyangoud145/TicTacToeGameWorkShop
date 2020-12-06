@@ -217,6 +217,10 @@ namespace TicTacToeGame
             if (playerWinningMove != 0) return playerWinningMove;
             int cornerIndexMove = GetCornerPosition();
             if (cornerIndexMove != 0) return cornerIndexMove;
+            // Checks if fifth position is free 
+            if (IsSpaceFree(this.board, 5)) return 5;
+            int otherIndexMove = GetOtherPosition();
+            if (otherIndexMove != 0) return otherIndexMove;
             return 0;
         }
         /// <summary>
@@ -268,7 +272,7 @@ namespace TicTacToeGame
             }
         }
         /// <summary>
-        /// Gets the corner position.
+        /// Gets the corner empty position  index
         /// </summary>
         /// <returns></returns>
         public int GetCornerPosition()
@@ -283,6 +287,21 @@ namespace TicTacToeGame
             }
             return 0;
         }
-
+        /// <summary>
+        /// Gets the other position other than corners
+        /// </summary>
+        /// <returns></returns>
+        public int GetOtherPosition()
+        {
+            int[] otherIndex = { 2, 4, 6, 8 };
+            foreach (int index in otherIndex)
+            {
+                if (IsSpaceFree(this.board, index))
+                {
+                    return index;
+                }
+            }
+            return 0;
+        }
     }
 }
