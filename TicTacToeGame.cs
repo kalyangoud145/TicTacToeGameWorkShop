@@ -23,6 +23,7 @@ namespace TicTacToeGame
             this.currentPlayer = GetWhoStartsFirst();
             while (!this.gameOver)
             {
+                Console.WriteLine("\n" + this.currentPlayer + " playing his move.....\n");
                 if (this.currentPlayer == "player")
                 {
                     this.PlayerMove();
@@ -153,6 +154,7 @@ namespace TicTacToeGame
             {
                 if (IsTie(this.board))
                 {
+                    this.gameOver = true;
                     Console.WriteLine("Game is tied");
                 }
                 else
@@ -162,6 +164,7 @@ namespace TicTacToeGame
             }
             else
             {
+                this.gameOver = true;
                 Console.WriteLine(this.currentPlayer + " is the winner");
             }
         }
