@@ -213,6 +213,10 @@ namespace TicTacToeGame
         {
             int winningMove = this.GetWinningMove(this.computer);
             if (winningMove != 0) return winningMove;
+            int playerWinningMove = this.GetWinningMove(this.player);
+            if (playerWinningMove != 0) return playerWinningMove;
+            int cornerIndexMove = GetCornerPosition();
+            if (cornerIndexMove != 0) return cornerIndexMove;
             return 0;
         }
         /// <summary>
@@ -262,6 +266,22 @@ namespace TicTacToeGame
             {
                 this.PlayerMove();
             }
+        }
+        /// <summary>
+        /// Gets the corner position.
+        /// </summary>
+        /// <returns></returns>
+        public int GetCornerPosition()
+        {
+            int[] cornerIndex = { 1, 3, 7, 9 };
+            foreach (int index in cornerIndex)
+            {
+                if (IsSpaceFree(this.board, index))
+                {
+                    return index;
+                }
+            }
+            return 0;
         }
 
     }
