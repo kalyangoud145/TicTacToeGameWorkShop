@@ -11,6 +11,7 @@ namespace TicTacToeGame
             char userChoice = ticTacToe.ChooseUserChoice();
             ticTacToe.ShowBoard(board);
             ticTacToe.GetUserDesiredMove(board);
+            TicTacToeGame.MakeMove(board, 6, userChoice);
         }
     }
 }
