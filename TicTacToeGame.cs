@@ -6,7 +6,8 @@ namespace TicTacToeGame
 {
     class TicTacToeGame
     {
-        public enum player { USER, COMPUTER };
+        public enum Player { USER, COMPUTER };
+        public string currentPlayer;
         /// <summary>
         /// Creates the tic tac toe board.
         /// </summary>
@@ -92,12 +93,75 @@ namespace TicTacToeGame
         /// Gets the who starts first.
         /// </summary>
         /// <returns></returns>
-        public static player GetWhoStartsFirst()
+        public static Player GetWhoStartsFirst()
         {
             Random random = new Random();
             int choice = random.Next(0, 2);
             Console.WriteLine(choice);
-            return (choice == 0) ? player.USER : player.COMPUTER;
+            return (choice == 0) ? Player.USER : Player.COMPUTER;
         }
+        /// <summary>
+        /// Gets the game status.
+        /// </summary>
+        /// <param name="board">The board.</param>
+        /// <param name="symbol">The symbol.</param>
+        public void GameStatus(char[] board, char symbol)
+        {
+            if (!this.IsWinner(board, symbol))
+            {
+                if (IsTie(board))
+                {
+                    Console.WriteLine("Game is tied");
+                }
+                else
+                {
+                    this.currentPlayer = (this.currentPlayer == "Player.USER") ? "Player.COMPUTER" : "Player.USER";
+                }
+            }
+            else
+            {
+                Console.WriteLine(this.currentPlayer + " is the winner");
+            }
+        }
+        /// <summary>
+        /// Determines whether the specified board is winner according to rules
+        /// </summary>
+        /// <param name="board">The board.</param>
+        /// <param name="symbol">The symbol.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified board is winner; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsWinner(char[] board, char symbol)
+        {
+            return (board[1] == symbol && board[2] == symbol && board[3] == symbol) ||
+                (board[4] == symbol && board[5] == symbol && board[6] == symbol) ||
+                (board[7] == symbol && board[8] == symbol && board[9] == symbol) ||
+                (board[1] == symbol && board[4] == symbol && board[7] == symbol) ||
+                (board[2] == symbol && board[5] == symbol && board[8] == symbol) ||
+                (board[3] == symbol && board[6] == symbol && board[9] == symbol) ||
+                (board[1] == symbol && board[5] == symbol && board[9] == symbol) ||
+                (board[3] == symbol && board[5] == symbol && board[7] == symbol);
+        }
+        /// <summary>
+        /// Determines whether the specified board is tie.
+        /// </summary>
+        /// <param name="board">The board.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified board is tie; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsTie(char[] board)
+        {
+            bool tie = true;
+            for (int index = 1; index < 10; index++)
+            {
+                if (board[index] == ' ')
+                {
+                    tie = false;
+                    break;
+                }
+            }
+            return tie;
+        }
+
     }
 }
