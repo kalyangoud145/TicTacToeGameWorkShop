@@ -6,6 +6,10 @@ namespace TicTacToeGame
 {
     class TicTacToeGame
     {
+        /// <summary>
+        /// Creates the tic tac toe board.
+        /// </summary>
+        /// <returns></returns>
         public char[] CreateTicTacToeBoard()
         {
             char[] board = new char[10];
@@ -14,6 +18,16 @@ namespace TicTacToeGame
                 board[i] = ' ';
             }
             return board;
+        }
+        /// <summary>
+        /// Chooses the user choice.
+        /// </summary>
+        /// <returns></returns>
+        public char ChooseUserChoice()
+        {
+            Console.WriteLine("Choose your letter: ");
+            string userChoice = Console.ReadLine();
+            return char.ToUpper(userChoice[0]);
         }
     }
 }
