@@ -42,5 +42,39 @@ namespace TicTacToeGame
             Console.WriteLine(board[7] + " | " + board[8] + " | " + board[9]);
             Console.WriteLine("----------");
         }
+        /// <summary>
+        /// Gets the user desired move.
+        /// </summary>
+        /// <param name="board">The board.</param>
+        /// <returns></returns>
+        public int GetUserDesiredMove(char[] board)
+        {
+            int[] validCells = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            while (true)
+            {
+                Console.WriteLine("What is your desired next move?");
+                int index = Convert.ToInt32(Console.ReadLine());
+                if ((index >= 1 && index <= 9) && IsSpaceFree(board, index))
+                {
+                    return index;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid entry please check the input and try again.");
+                }
+            }
+        }
+        /// <summary>
+        /// Determines whether space is free in the specific position of board
+        /// </summary>
+        /// <param name="board">The board.</param>
+        /// <param name="index">The index.</param>
+        /// <returns>
+        ///   <c>true</c> if [is space free] [the specified board]; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsSpaceFree(char[] board, int index)
+        {
+            return board[index] == ' ';
+        }
     }
 }

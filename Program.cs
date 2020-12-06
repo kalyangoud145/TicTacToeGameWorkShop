@@ -9,7 +9,8 @@ namespace TicTacToeGame
             TicTacToeGame ticTacToe = new TicTacToeGame();
             char[] board = ticTacToe.CreateTicTacToeBoard();
             char userChoice = ticTacToe.ChooseUserChoice();
-            ticTacToe.showBoard(board);
+            ticTacToe.ShowBoard(board);
+            ticTacToe.GetUserDesiredMove(board);
         }
     }
 }
