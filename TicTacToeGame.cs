@@ -76,5 +76,16 @@ namespace TicTacToeGame
         {
             return board[index] == ' ';
         }
+        /// <summary>
+        /// Checks if desired cell is free then make a move to place the letter.
+        /// </summary>
+        /// <param name="board">The board.</param>
+        /// <param name="index">The index.</param>
+        /// <param name="letter">The letter.</param>
+        public static void MakeMove(char[] board, int index, char letter)
+        {
+            bool isSpaceFree = IsSpaceFree(board, index);
+            if (isSpaceFree) board[index] = letter;
+        }
     }
 }
