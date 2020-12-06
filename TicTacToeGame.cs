@@ -6,6 +6,7 @@ namespace TicTacToeGame
 {
     class TicTacToeGame
     {
+        public enum player { USER, COMPUTER };
         /// <summary>
         /// Creates the tic tac toe board.
         /// </summary>
@@ -86,6 +87,17 @@ namespace TicTacToeGame
         {
             bool isSpaceFree = IsSpaceFree(board, index);
             if (isSpaceFree) board[index] = letter;
+        }
+        /// <summary>
+        /// Gets the who starts first.
+        /// </summary>
+        /// <returns></returns>
+        public static player GetWhoStartsFirst()
+        {
+            Random random = new Random();
+            int choice = random.Next(0, 2);
+            Console.WriteLine(choice);
+            return (choice == 0) ? player.USER : player.COMPUTER;
         }
     }
 }
