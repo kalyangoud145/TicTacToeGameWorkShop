@@ -6,7 +6,8 @@ namespace TicTacToeGame
 {
     class TicTacToeGame
     {
-        public enum Player { USER, COMPUTER };
+        public char player;
+        public char computer;
         public string currentPlayer;
         /// <summary>
         /// Creates the tic tac toe board.
@@ -93,12 +94,12 @@ namespace TicTacToeGame
         /// Gets the who starts first.
         /// </summary>
         /// <returns></returns>
-        public static Player GetWhoStartsFirst()
+        public static string GetWhoStartsFirst()
         {
             Random random = new Random();
             int choice = random.Next(0, 2);
             Console.WriteLine(choice);
-            return (choice == 0) ? Player.USER : Player.COMPUTER;
+            return (choice == 0) ? "player" : "computer";
         }
         /// <summary>
         /// Gets the game status.
@@ -115,7 +116,7 @@ namespace TicTacToeGame
                 }
                 else
                 {
-                    this.currentPlayer = (this.currentPlayer == "Player.USER") ? "Player.COMPUTER" : "Player.USER";
+                    this.currentPlayer = (this.currentPlayer == "player") ? "computer" : "player";
                 }
             }
             else
@@ -162,6 +163,38 @@ namespace TicTacToeGame
             }
             return tie;
         }
-
+        /// <summary>
+        /// Computer move by checking the winning position
+        /// </summary>
+        /// <param name="board">The board.</param>
+        /// <returns></returns>
+        public int ComputerMove(char[] board)
+        {
+            int winningMove = this.GetWinningMove(board);
+            if (winningMove != 0) return winningMove;
+            return 0;
+        }
+        /// <summary>
+        /// Gets the winning move.
+        /// </summary>
+        /// <param name="board">The board.</param>
+        /// <returns></returns>
+        public int GetWinningMove(char[] board)
+        {
+            for (int index = 1; index < 10; index++)
+            {
+                char[] boardCopy = new char[10];
+                if (IsSpaceFree(boardCopy, index))
+                {
+                    boardCopy[index] = this.player;
+                    if (IsWinner(boardCopy, this.computer))
+                    {
+                        return index;
+                    }
+                }
+            }
+            this.GameStatus(board, this.computer);
+            return 0;
+        }
     }
 }
