@@ -1,42 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace TicTacToeGame
 {
     class TicTacToeGame
     {
+        public char[] board;
         public char player;
         public char computer;
         public string currentPlayer;
+        public bool gameOver = false;
+        /// <summary>
+        /// Plays the game
+        /// </summary>
+        public void PlayGame()
+        {
+            this.CreateTicTacToeBoard();
+            this.ChooseUserChoice();
+            this.ShowBoard();
+            this.currentPlayer = GetWhoStartsFirst();
+            while (!this.gameOver)
+            {
+                if (this.currentPlayer == "player")
+                {
+                    this.PlayerMove();
+                }
+                else
+                {
+                    int computerMove = this.ComputerMove(this.board);
+                    this.board[computerMove] = this.computer;
+                    this.GameStatus(this.computer);
+
+                }
+                this.ShowBoard();
+            }
+        }
         /// <summary>
         /// Creates the tic tac toe board.
         /// </summary>
         /// <returns></returns>
-        public char[] CreateTicTacToeBoard()
+        public void CreateTicTacToeBoard()
         {
-            char[] board = new char[10];
-            for (int i = 1; i < board.Length; i++)
+            this.board = new char[10];
+            for (int index = 0; index < 10; index++)
             {
-                board[i] = ' ';
+                board[index] = ' ';
             }
-            return board;
+            Console.WriteLine("Board Created");
         }
         /// <summary>
         /// Chooses the user choice.
         /// </summary>
         /// <returns></returns>
-        public char ChooseUserChoice()
+        public void ChooseUserChoice()
         {
-            Console.WriteLine("Choose your letter: ");
-            string userChoice = Console.ReadLine();
-            return char.ToUpper(userChoice[0]);
+            Console.WriteLine("Player choose the X or O: ");
+            this.player = Console.ReadLine()[0];
+            while (!Regex.IsMatch(this.player.ToString(), @"^[XO]$"))
+            {
+                Console.WriteLine("Enter X or O: ");
+                this.player = Console.ReadLine()[0];
+            }
+            if (this.player.Equals('X'))
+            {
+                this.computer = 'O';
+            }
+            else
+            {
+                this.computer = 'X';
+            }
+            Console.WriteLine("Player: " + this.player + ", Computer: " + this.computer);
         }
         /// <summary>
         /// Display the  current board.
         /// </summary>
         /// <param name="board">The board.</param>
-        public void ShowBoard(char[] board)
+        public void ShowBoard()
         {
             Console.WriteLine(board[1] + " | " + board[2] + " | " + board[3]);
             Console.WriteLine("----------");
@@ -106,11 +147,11 @@ namespace TicTacToeGame
         /// </summary>
         /// <param name="board">The board.</param>
         /// <param name="symbol">The symbol.</param>
-        public void GameStatus(char[] board, char symbol)
+        public void GameStatus(char symbol)
         {
-            if (!this.IsWinner(board, symbol))
+            if (!this.IsWinner(this.board, symbol))
             {
-                if (IsTie(board))
+                if (IsTie(this.board))
                 {
                     Console.WriteLine("Game is tied");
                 }
@@ -170,7 +211,7 @@ namespace TicTacToeGame
         /// <returns></returns>
         public int ComputerMove(char[] board)
         {
-            int winningMove = this.GetWinningMove(board);
+            int winningMove = this.GetWinningMove(this.computer);
             if (winningMove != 0) return winningMove;
             return 0;
         }
@@ -179,22 +220,49 @@ namespace TicTacToeGame
         /// </summary>
         /// <param name="board">The board.</param>
         /// <returns></returns>
-        public int GetWinningMove(char[] board)
+        public int GetWinningMove(char symbol)
         {
             for (int index = 1; index < 10; index++)
             {
                 char[] boardCopy = new char[10];
                 if (IsSpaceFree(boardCopy, index))
                 {
-                    boardCopy[index] = this.player;
+                    boardCopy[index] = symbol;
                     if (IsWinner(boardCopy, this.computer))
                     {
                         return index;
                     }
+                    else
+                    {
+                        boardCopy[index] = ' ';
+                    }
                 }
             }
-            this.GameStatus(board, this.computer);
             return 0;
         }
+        /// <summary>
+        /// Player  move.
+        /// </summary>
+        public void PlayerMove()
+        {
+            Console.WriteLine("Enter the board position to play " + this.player);
+            string boardIndex = Console.ReadLine();
+            while (!System.Text.RegularExpressions.Regex.IsMatch(boardIndex, @"^[1-9]$"))
+            {
+                Console.WriteLine("Enter board position between 0-9");
+                boardIndex = Console.ReadLine();
+            }
+            int index = Int32.Parse(boardIndex);
+            if (IsSpaceFree(this.board, index))
+            {
+                this.board[index] = this.player;
+                this.GameStatus(this.player);
+            }
+            else
+            {
+                this.PlayerMove();
+            }
+        }
+
     }
 }
