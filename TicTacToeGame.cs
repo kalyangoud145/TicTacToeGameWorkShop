@@ -37,6 +37,10 @@ namespace TicTacToeGame
                 }
                 this.ShowBoard();
             }
+            if (this.NewGame())
+            {
+                this.PlayGame();
+            }
         }
         /// <summary>
         /// Creates the tic tac toe board.
@@ -233,13 +237,13 @@ namespace TicTacToeGame
         /// <returns></returns>
         public int GetWinningMove(char symbol)
         {
+            char[] boardCopy = new char[10];
             for (int index = 1; index < 10; index++)
             {
-                char[] boardCopy = new char[10];
                 if (IsSpaceFree(boardCopy, index))
                 {
                     boardCopy[index] = symbol;
-                    if (IsWinner(boardCopy, this.computer))
+                    if (IsWinner(boardCopy, symbol))
                     {
                         return index;
                     }
@@ -305,6 +309,22 @@ namespace TicTacToeGame
                 }
             }
             return 0;
+        }
+        /// <summary>
+        /// Creates new game to play
+        /// </summary>
+        /// <returns></returns>
+        public bool NewGame()
+        {
+            Console.WriteLine("\nDo you want to play a new game?");
+            Console.Write("(Y/N) : ");
+            char newLine = Console.ReadLine()[0];
+            if (newLine.Equals('Y'))
+            {
+                this.gameOver = false;
+                return true;
+            }
+            else return false;
         }
     }
 }
